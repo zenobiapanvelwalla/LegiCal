@@ -1,10 +1,20 @@
 var express = require("express");
 var app = express();
 var path = require('path');
-var bodyParese = require('body-parser');
+var bodyParser = require('body-parser');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+var session = require('express-session')
+app.use(session({
+    secret: 'LegiCal',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+  }))
+//https://github.com/expressjs/session
 
+
+debugger;
 //connect to mongoose
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://root:root123@ds119692.mlab.com:19692/legical', {useNewUrlParser: true, poolSize: 100 },function(err){
@@ -14,10 +24,14 @@ mongoose.connect('mongodb://root:root123@ds119692.mlab.com:19692/legical', {useN
 
 
 //route handlers
-var waitTimes = require('./routes/wait-times');
+var user = require('./routes/user');
+var login = require('./routes/login');
+var logout = require('./routes/logout');
 
 //routes
-app.use('/insert-wait-times',waitTimes);
+app.use('/user',user);
+app.use('/login',login);
+app.use('/logout',logout);
 //tester
 app.get("/", (req, res, next) => {
     res.json(["Tony","Lisa","Michael","Ginger","Food"]);
@@ -26,6 +40,7 @@ app.get("/", (req, res, next) => {
 
 //serve on port 3000
 app.listen(3000, () => {
+    debugger;
     console.log("Server running on port 3000");
 });
    

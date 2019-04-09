@@ -2,9 +2,15 @@ var mongoose = require('mongoose');
 var Schema =  mongoose.Schema;
 
 var UserSchema =  new Schema({
-    first_name:{type:String, required:true},
-    last_name:{type:String, required:true},
+    firstName:{type:String, required:true},
+    lastName:{type:String, required:true},
     email: {type:String, required:false},
+    password: {type: String, required:true},
+    streetAddress: {type: String},
+    city : {type: String},
+    state: {type:String},
+    zipcode:{type:String},
+    organizationCode:{type:String},
     created: {
         type: Date,
         default: Date.now
