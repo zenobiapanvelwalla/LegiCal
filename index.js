@@ -11,10 +11,7 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: true }
   }))
-//https://github.com/expressjs/session
 
-
-debugger;
 //connect to mongoose
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://root:root123@ds119692.mlab.com:19692/legical', {useNewUrlParser: true, poolSize: 100 },function(err){
@@ -22,21 +19,24 @@ mongoose.connect('mongodb://root:root123@ds119692.mlab.com:19692/legical', {useN
     console.log("Successfully connected to MongoDB");
 });
 
-
 //route handlers
 var user = require('./routes/user');
 var login = require('./routes/login');
 var logout = require('./routes/logout');
+var bill = require('./routes/bill');
+var senate = require('./routes/senate');
 
 //routes
 app.use('/user',user);
 app.use('/login',login);
 app.use('/logout',logout);
+app.use('/bill',bill);
+app.use('/senate', senate)
+
 //tester
 app.get("/", (req, res, next) => {
     res.json(["Tony","Lisa","Michael","Ginger","Food"]);
 });
-
 
 //serve on port 3000
 app.listen(3000, () => {
