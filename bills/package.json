@@ -1,0 +1,40 @@
+{
+  "name": "smartflyerbackend",
+  "version": "1.0.0",
+  "description": "NodeJS backend for SmartFlyer Android Application",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zenobiapanvelwalla/SmartFlyerBackend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zenobiapanvelwalla/SmartFlyerBackend/issues"
+  },
+  "homepage": "https://github.com/zenobiapanvelwalla/SmartFlyerBackend#readme",
+  "dependencies": {
+    "assert": "^1.4.1",
+    "axios": "^0.16.2",
+    "cassandra-driver": "^4.3.1",
+    "cors": "^2.8.5",
+    "debug": "^4.1.1",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "mongoose": "^5.4.20",
+    "nodemailer": "^6.3.1",
+    "request": "^2.88.0",
+    "should": "^13.2.3",
+    "util": "^0.11.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "chai": "^4.2.0",
+    "mocha": "^6.0.2",
+    "nodemon": "^1.18.10"
+  }
+}
