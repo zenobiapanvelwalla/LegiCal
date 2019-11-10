@@ -19,6 +19,7 @@
   "dependencies": {
     "assert": "^1.4.1",
     "axios": "^0.16.2",
+    "cassandra-driver": "^4.3.1",
     "debug": "^4.1.1",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
