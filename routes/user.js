@@ -76,9 +76,10 @@ router.post('/addComment', function(req, res, next) {
 
     let billId = req.body.billId;
     let comments = req.body.comments;
-
-    var query = 'INSERT INTO discussion (billId,  comments, orgName) VALUES (?, ?);';
-    execute(query, [billId, comments], (err, result) => {
+    let arr = [];
+    arr.push(comments);
+    var query = 'UPDATE discussion set comments = comments + ? where billid = ?';
+    execute(query, [arr, billid], (err, result) => {
         if(err) {
             console.log("fail");
             response.statusCode = 500;
