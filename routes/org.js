@@ -2,7 +2,7 @@ var cassandra = require('cassandra-driver');
 var express = require('express');
 var nodemailer = require('nodemailer');
 var router = express.Router();
-let serverURL = "http://localhost:3000/";
+let clientURL = "http://localhost:3000/";
 //var authProvider = new cassandra.auth.PlainTextAuthProvider('Username', 'Password');
 //Replace PublicIP with the IP addresses of your clusters
 var contactPoints = ['127.0.0.1'];
@@ -49,7 +49,7 @@ router.post('/', function(req,res,next){
               }
           	});
 
-			let link = serverURL +'user_signup/'+ organizationName;
+			let link = clientURL +'user_signup/'+ organizationName;
 	        var mailOptions = {
 	            from: 'rujsricheta@gmail.com',
 	            to: users,

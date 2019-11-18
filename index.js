@@ -28,7 +28,6 @@ app.options('*', cors());
 
 //route handlers
 var user = require('./routes/user');
-var login = require('./routes/login');
 var logout = require('./routes/logout');
 var bill = require('./routes/bill');
 var senate = require('./routes/senate');
@@ -36,7 +35,6 @@ var org = require('./routes/org');
 
 //routes
 app.use('/user',user);
-app.use('/login',login);
 app.use('/logout',logout);
 app.use('/bill',bill);
 app.use('/senate', senate)
