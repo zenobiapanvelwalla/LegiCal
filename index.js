@@ -2,9 +2,11 @@ var express = require("express");
 var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
+const cors = require('cors');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 var session = require('express-session')
+app.use(cors());
 app.use(session({
     secret: 'LegiCal',
     resave: false,
@@ -19,6 +21,8 @@ mongoose.connect('mongodb://root:root123@ds119692.mlab.com:19692/legical', {useN
     console.log("Successfully connected to MongoDB");
 });
 
+
+app.options('*', cors());
 
 //connect to cassandra
 
@@ -38,15 +42,20 @@ app.use('/bill',bill);
 app.use('/senate', senate)
 app.use('/org', org);
 
-//tester
-app.get("/", (req, res, next) => {
-    res.json(["Tony","Lisa","Michael","Ginger","Food"]);
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods','GET,PUT,POST,DELETE,PATCH,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, authorization');
+    res.header('Access-Control-Allow-Credentials', true);
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 //serve on port 3000
-app.listen(3000, () => {
+app.listen(5000, () => {
     debugger;
-    console.log("Server running on port 3000");
+    console.log("Server running on port 5000");
 });
    
 module.exports = app;

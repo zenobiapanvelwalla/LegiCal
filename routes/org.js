@@ -1,6 +1,8 @@
 var cassandra = require('cassandra-driver');
 var express = require('express');
+var nodemailer = require('nodemailer');
 var router = express.Router();
+let serverURL = "http://localhost:3000/";
 //var authProvider = new cassandra.auth.PlainTextAuthProvider('Username', 'Password');
 //Replace PublicIP with the IP addresses of your clusters
 var contactPoints = ['127.0.0.1'];
@@ -17,13 +19,18 @@ var response = {
 
 // TODO : prepare organization
 router.post('/', function(req,res,next){
+
+	console.log(req);
+	let organizationName=  req.body.organizationName;
+    let address= req.body.address;
+    let phoneNumber =  req.body.phoneNumber;
+    let users = req.body.users;
+
 	var payload = req.body;
-	payload.tags = [ "Cannabis"];
 	const bills = Object.values(jsonContent.masterlist)
 	const bills1 =  bills.filter((bill) => payload.tags.some((tag) =>  bill.title && bill.title.indexOf(tag) >= 0));
-
-	var query = 'INSERT INTO organization (ord_id,  org_name, org_desc, tags, bills) VALUES (?,?,?,?,?);';
-	execute(query, ["3", "Sri", "Sruchoieta", payload.tags, bills1], (err, result) => {
+	var query = 'INSERT INTO organization (uuid,  org_name, address, phone, tags, bills) VALUES (uuid(),?,?,?,?,?);';
+	execute(query, [organizationName, address, phoneNumber, payload.tags, bills1], (err, result) => {
 		if(err) {
 			console.log("fail");
 			response.statusCode = 500;
@@ -31,7 +38,33 @@ router.post('/', function(req,res,next){
 			res.send(response);
 		}else{
 			console.log("success");
+			response.orgName = organizationName;
 			response.message = "Organiztion added successfully";
+
+			var transporter = nodemailer.createTransport({
+              service: 'gmail',
+              auth: {
+                  user: 'rujsricheta@gmail.com',
+                  pass: 'Testaccount@123'
+              }
+          	});
+
+			let link = serverURL +'user_signup/'+ organizationName;
+	        var mailOptions = {
+	            from: 'rujsricheta@gmail.com',
+	            to: users,
+	            subject: 'LegiCal : You are invited to register with '+organizationName,
+	            text: 'Please signup on -> ' +  encodeURI(link)
+
+	        };
+
+  		    transporter.sendMail(mailOptions, function(error, info){
+              if (error) {
+                  console.log(error);
+              } else {
+                  console.log("Email sent!");
+              }
+            });
 			res.send(response);
 		}
 	});
