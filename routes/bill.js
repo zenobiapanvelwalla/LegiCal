@@ -10,8 +10,8 @@ var response = {
 };
 
 
-router.get('/getComments', function(req, res, next) {
-    let billId = req.body.billId;
+router.post('/getComments', function(req, res, next) {
+    let billId = req.body.billId.toString();
     var query = 'SELECT * FROM discussion where billId = ?';
     execute(query, [billId], (err, result) => {
         if(err) {
@@ -21,12 +21,28 @@ router.get('/getComments', function(req, res, next) {
             res.send(response);
         }else {
             console.log("successfull");
+            response = result.rows[0];
             response.statusCode = 200;
             response.message = "Retrived comment succfully";
-            response.comments = result.rows[0];
+            
             res.send(response);
         }
     });
 });
+
+//Ensure all queries are executed before exit
+function execute(query, params, callback) {
+  return new Promise((resolve, reject) => {
+    client.execute(query, params, { prepare: true }, (err, result) => {
+      if(err) {
+        console.log(err);
+        reject()
+      } else {
+        callback(err, result);
+        resolve()
+      }
+    });
+  });
+}
 
 module.exports = router;

@@ -74,12 +74,12 @@ router.post('/login', function(req, res, next) {
 
 router.post('/addComment', function(req, res, next) {
 
-    let billId = req.body.billId;
-    let comments = req.body.comments;
+    let billId = req.body.billId.toString();
+    let comment = req.body.comment;
     let arr = [];
-    arr.push(comments);
+    arr.push(comment);
     var query = 'UPDATE discussion set comments = comments + ? where billid = ?';
-    execute(query, [arr, billid], (err, result) => {
+    execute(query, [arr, billId], (err, result) => {
         if(err) {
             console.log("fail");
             response.statusCode = 500;
